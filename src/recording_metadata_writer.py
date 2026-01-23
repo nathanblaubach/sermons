@@ -4,7 +4,7 @@ from recording_metadata import RecordingMetadata
 class RecordingMetadataWriter:
 
     def save_metadata_file(self, metadata: RecordingMetadata):
-        file_path = Path(metadata.audio_file_path).parent / "sermon_metadata.txt"
+        file_path = Path(metadata.audio_file_path).parent / f"{Path(metadata.audio_file_path).stem}.txt"
         file_contents = f"""Recording Upload Information
 
 Soundcloud
@@ -15,7 +15,7 @@ Description:
 {metadata.title} // {metadata.speaker_name}
 Find out more about River City Church at rivercitydbq.org
 
-Youtube
+YouTube
 
 Title:
 {metadata.title}
