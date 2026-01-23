@@ -28,4 +28,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: recording_helper-windows
-          path: dist/SermonUploadAssistant.exe
+          path: dist/sermon_upload_assistant.exe
