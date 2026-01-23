@@ -1,0 +1,72 @@
+from datetime import date, timedelta
+
+import tkinter as tk
+from tkinter import ttk, filedialog
+
+from recording_metadata import RecordingMetadata
+
+class RecordingMetadataForm:
+    def __init__(self):
+        # Set up frame
+        self.root = tk.Tk()
+        self.root.title("Recording Metadata")
+        self.root.geometry("500x250")
+        main_frame = ttk.Frame(self.root, padding="20")
+        main_frame.grid(row=0, column=0, sticky="nsew")
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+        main_frame.columnconfigure(1, weight=1)
+
+        # Audio File Path
+        ttk.Label(main_frame, text="Audio File:").grid(row=0, column=0, sticky="w", pady=5)
+        self.get_recording_audio_file_path_var = tk.StringVar()
+        self.file_path_entry = ttk.Entry(main_frame, textvariable=self.get_recording_audio_file_path_var)
+        self.file_path_entry.grid(row=0, column=1, sticky="ew", pady=5, padx=(5, 5))
+        self.browse_button = ttk.Button(main_frame, text="Browse", command=self._browse_file)
+        self.browse_button.grid(row=0, column=2, pady=5)
+
+        # Passage / Title
+        ttk.Label(main_frame, text="Passage / Title:").grid(row=1, column=0, sticky="w", pady=5)
+        self.get_recording_title_var = tk.StringVar()
+        self.title_entry = ttk.Entry(main_frame, textvariable=self.get_recording_title_var)
+        self.title_entry.grid(row=1, column=1, columnspan=2, sticky="ew", pady=5, padx=(5, 0))
+
+        # Recording Date (Default to most recent sunday)
+        today = date.today()
+        most_recent_sunday = (today - timedelta(days=(today.weekday() + 1) % 7))
+
+        ttk.Label(main_frame, text="Recording Date:").grid(row=2, column=0, sticky="w", pady=5)
+        self.get_recording_date_var = tk.StringVar(value=most_recent_sunday.strftime("%Y.%m.%d"))
+        self.date_entry = ttk.Entry(main_frame, textvariable=self.get_recording_date_var)
+        self.date_entry.grid(row=2, column=1, columnspan=2, sticky="ew", pady=5, padx=(5, 0))
+
+        # Speaker (Default to Aaron)
+        ttk.Label(main_frame, text="Speaker:").grid(row=3, column=0, sticky="w", pady=5)
+        self.get_recording_speaker_var = tk.StringVar(value="Aaron Morrow")
+        self.speaker_entry = ttk.Entry(main_frame, textvariable=self.get_recording_speaker_var)
+        self.speaker_entry.grid(row=3, column=1, columnspan=2, sticky="ew", pady=5, padx=(5, 0))
+
+        # Submit Button
+        self.submit_button = ttk.Button(main_frame, text="Submit", command=self._on_submit)
+        self.submit_button.grid(row=4, column=0, columnspan=3, pady=20)
+
+        self.root.mainloop()
+
+    def _browse_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Select a file",
+            filetypes=[("mp3 Files", "*.mp3")]
+        )
+        if file_path:
+            self.get_recording_audio_file_path_var.set(file_path)
+
+    def _on_submit(self):
+        self.root.destroy()
+
+    def get_recording_metadata(self) -> RecordingMetadata:
+        return RecordingMetadata(
+            audio_file_path=self.get_recording_audio_file_path_var.get(),
+            title=self.get_recording_title_var.get(),
+            date=self.get_recording_date_var.get(),
+            speaker_name=self.get_recording_speaker_var.get(),
+        )
