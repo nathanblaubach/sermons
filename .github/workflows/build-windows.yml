@@ -24,11 +24,13 @@ jobs:
       - name: Build executable
         run: pyinstaller --onefile --windowed src/sermon_upload_assistant.py
 
+      - name: Copy images to distribution
+        run: |
+          data/logo-soundcloud.jpg dist/
+          data/logo-youtube.jpg dist/
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: recording_helper-windows
-          path: |
-            dist/sermon_upload_assistant.exe
-            data/logo-soundcloud.jpg
-            data/logo-youtube.jpg
+          path: dist/
