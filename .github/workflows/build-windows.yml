@@ -28,4 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: recording_helper-windows
-          path: dist/sermon_upload_assistant.exe
+          path: |
+            dist/sermon_upload_assistant.exe
+            data/logo-soundcloud.jpg
+            data/logo-youtube.jpg
