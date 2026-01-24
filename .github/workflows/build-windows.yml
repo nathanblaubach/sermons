@@ -26,8 +26,8 @@ jobs:
 
       - name: Copy images to distribution
         run: |
-          data/logo-soundcloud.jpg dist/
-          data/logo-youtube.jpg dist/
+          cp data/logo-soundcloud.jpg dist/
+          cp data/logo-youtube.jpg dist/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
