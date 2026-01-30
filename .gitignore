@@ -207,7 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 .vscode/
-data/*.mp3
-data/*.MP3
-data/*.mp4
-data/*.txt
+data/
