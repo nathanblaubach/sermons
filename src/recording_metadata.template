@@ -1,0 +1,30 @@
+Recording Upload Information
+
+Soundcloud: https://soundcloud.com/upload
+
+Add new artwork: logo-soundcloud.jpg
+Track title: {title} // {date}
+Genre: Religion & Spirituality
+Description:
+{title} // {speaker_name}
+Find out more about River City Church at rivercitydbq.org
+Advanced Details > Release date: {date}
+Permissions > Engagement privacy: Uncheck all
+
+Add to Playlists
+
+- River City Church Sermons
+- Current Sermon Series (If Applicable)
+
+YouTube: https://studio.youtube.com/channel/UCKmv_adKiFPQCbwQW2qaONw
+
+Title: {title}
+Description:
+{speaker_name} // {date}
+Find out more about River City Church at rivercitydbq.org
+Thumbnail: logo-youtube.jpg
+Playlists:
+- Sermons
+- Current Sermon Series (If Applicable)
+Audience: No, it's not made for kids
+Show more > Recording date and location > Recording date: {date}
