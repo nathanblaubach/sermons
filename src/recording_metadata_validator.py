@@ -5,13 +5,14 @@ from recording_metadata import RecordingMetadata
 
 
 class RecordingMetadataValidator:
-    def is_valid(self, metadata: RecordingMetadata):
+    def get_messages(self, metadata: RecordingMetadata) -> list[str]:
+        issues: list[str] = []
         if metadata.audio_file_path == '' or not isfile(metadata.audio_file_path):
-            return False
+            issues.append('Please provide a valid audio file path')
         if metadata.title == '':
-            return False
+            issues.append('Please provide a title')
         if not re.fullmatch(r'\d{4}\.\d{2}\.\d{2}', metadata.date):
-            return False
+            issues.append('Please provide a date in YYYY.MM.DD format')
         if metadata.speaker_name == '':
-            return False
-        return True
+            issues.append('Please provide a speaker name')
+        return issues

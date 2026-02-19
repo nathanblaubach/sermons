@@ -4,13 +4,16 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 
 from recording_metadata import RecordingMetadata
+from recording_metadata_validator import RecordingMetadataValidator
 
 class RecordingMetadataForm:
     def __init__(self):
+        self.validator = RecordingMetadataValidator()
+
         # Set up frame
         self.root = tk.Tk()
         self.root.title("Sermon Upload Assistant")
-        self.root.geometry("500x250")
+        self.root.geometry("500x325")
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.grid(row=0, column=0, sticky="nsew")
         self.root.columnconfigure(0, weight=1)
@@ -50,6 +53,10 @@ class RecordingMetadataForm:
         self.submit_button = ttk.Button(main_frame, text="Submit", command=self._on_submit)
         self.submit_button.grid(row=4, column=0, columnspan=3, pady=20)
 
+        # Validation Messages
+        self.validation_label = tk.Label(main_frame, text="", fg="red", anchor="w", justify="left")
+        self.validation_label.grid(row=5, column=0, columnspan=3, sticky="w")
+
     def _browse_file(self):
         file_path = filedialog.askopenfilename(
             title="Select a file",
@@ -58,8 +65,22 @@ class RecordingMetadataForm:
         if file_path:
             self.get_recording_audio_file_path_var.set(file_path)
 
+    def get_fields_as_recording_metadata(self):
+        return RecordingMetadata(
+            audio_file_path=self.get_recording_audio_file_path_var.get(),
+            title=self.get_recording_title_var.get(),
+            date=self.get_recording_date_var.get(),
+            speaker_name=self.get_recording_speaker_var.get(),
+        )
+
     def _on_submit(self):
-        self.root.destroy()
+        form_validation_messages = self.validator.get_messages(
+            self.get_fields_as_recording_metadata()
+        )
+        if len(form_validation_messages) == 0:
+            self.root.destroy()
+        else:
+            self.validation_label.config(text="\n".join(form_validation_messages))
 
     def get_recording_metadata(self) -> RecordingMetadata:
         self.root.mainloop()

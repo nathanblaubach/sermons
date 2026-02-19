@@ -10,7 +10,8 @@ def main():
     media_writer = RecordingMediaWriter()
 
     metadata = metadata_form.get_recording_metadata()
-    if metadata_validator.is_valid(metadata):
+    validation_messages = metadata_validator.get_messages(metadata)
+    if len(validation_messages) == 0:
         metadata_writer.write(metadata)
         media_writer.write(metadata.audio_file_path)
 
