@@ -65,7 +65,7 @@ class RecordingMetadataForm:
         if file_path:
             self.get_recording_audio_file_path_var.set(file_path)
 
-    def get_fields_as_recording_metadata(self):
+    def get_recording_metadata(self):
         return RecordingMetadata(
             audio_file_path=self.get_recording_audio_file_path_var.get(),
             title=self.get_recording_title_var.get(),
@@ -74,19 +74,13 @@ class RecordingMetadataForm:
         )
 
     def _on_submit(self):
-        form_validation_messages = self.validator.get_messages(
-            self.get_fields_as_recording_metadata()
-        )
-        if len(form_validation_messages) == 0:
+        form_values = self.get_recording_metadata()
+        errors = self.validator.get_errors(form_values)
+        if len(errors) == 0:
             self.root.destroy()
         else:
-            self.validation_label.config(text="\n".join(form_validation_messages))
+            self.validation_label.config(text="\n".join(errors))
 
-    def get_recording_metadata(self) -> RecordingMetadata:
+    def collect_recording_metadata(self) -> RecordingMetadata:
         self.root.mainloop()
-        return RecordingMetadata(
-            audio_file_path=self.get_recording_audio_file_path_var.get(),
-            title=self.get_recording_title_var.get(),
-            date=self.get_recording_date_var.get(),
-            speaker_name=self.get_recording_speaker_var.get(),
-        )
+        return self.get_recording_metadata()

@@ -4,14 +4,13 @@ from recording_media_writer import RecordingMediaWriter
 from recording_metadata_writer import RecordingMetadataWriter
 
 def main():
-    metadata_form = RecordingMetadataForm()
-    metadata_validator = RecordingMetadataValidator()
+    form = RecordingMetadataForm()
+    validator = RecordingMetadataValidator()
     metadata_writer = RecordingMetadataWriter()
     media_writer = RecordingMediaWriter()
 
-    metadata = metadata_form.get_recording_metadata()
-    validation_messages = metadata_validator.get_messages(metadata)
-    if len(validation_messages) == 0:
+    metadata = form.collect_recording_metadata()
+    if len(validator.get_errors(metadata)) == 0:
         metadata_writer.write(metadata)
         media_writer.write(metadata.audio_file_path)
 
