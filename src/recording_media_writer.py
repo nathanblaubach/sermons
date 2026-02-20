@@ -5,12 +5,13 @@ import sys
 
 class RecordingMediaWriter:
     def write(self, audio_file_path: str):
-        if sys.platform == "win32":
+        if shutil.which("ffmpeg") is None and sys.platform == "win32":
             subprocess.run([
-                "winget",
-                "install",
-                "ffmpeg"
-            ])
+                "winget", "install",
+                "-e", "--id", "Gyan.FFmpeg",
+                "--accept-package-agreements",
+                "--accept-source-agreements",
+            ], check=True)
 
         executable_directory = Path(__file__).parent
         destination_directory = Path(audio_file_path).parent
