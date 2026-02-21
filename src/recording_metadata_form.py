@@ -10,6 +10,7 @@ class RecordingMetadataForm:
     def __init__(self):
         self.validator = RecordingMetadataValidator()
 
+    def get_recording_metadata(self) -> RecordingMetadata | None:
         # Set up frame
         self.root = tk.Tk()
         self.root.title("Sermon Upload Assistant")
@@ -25,7 +26,7 @@ class RecordingMetadataForm:
         self.get_recording_audio_file_path_var = tk.StringVar()
         self.file_path_entry = ttk.Entry(main_frame, textvariable=self.get_recording_audio_file_path_var)
         self.file_path_entry.grid(row=0, column=1, sticky="ew", pady=5, padx=(5, 5))
-        self.browse_button = ttk.Button(main_frame, text="Browse", command=self._browse_file)
+        self.browse_button = ttk.Button(main_frame, text="Browse", command=self.__browse_file)
         self.browse_button.grid(row=0, column=2, pady=5)
 
         # Passage / Title
@@ -50,14 +51,19 @@ class RecordingMetadataForm:
         self.speaker_entry.grid(row=3, column=1, columnspan=2, sticky="ew", pady=5, padx=(5, 0))
 
         # Submit Button
-        self.submit_button = ttk.Button(main_frame, text="Submit", command=self._on_submit)
+        self.submit_button = ttk.Button(main_frame, text="Submit", command=self.__on_submit)
         self.submit_button.grid(row=4, column=0, columnspan=3, pady=20)
 
         # Validation Messages
         self.validation_label = tk.Label(main_frame, text="", fg="red", anchor="w", justify="left")
         self.validation_label.grid(row=5, column=0, columnspan=3, sticky="w")
 
-    def _browse_file(self):
+        # Initialize Form
+        self.data = None
+        self.root.mainloop()
+        return self.data
+
+    def __browse_file(self):
         file_path = filedialog.askopenfilename(
             title="Select a file",
             filetypes=[("mp3 Files", "*.mp3")]
@@ -65,22 +71,16 @@ class RecordingMetadataForm:
         if file_path:
             self.get_recording_audio_file_path_var.set(file_path)
 
-    def get_recording_metadata(self):
-        return RecordingMetadata(
+    def __on_submit(self):
+        recording_metadata = RecordingMetadata(
             audio_file_path=self.get_recording_audio_file_path_var.get(),
             title=self.get_recording_title_var.get(),
             date=self.get_recording_date_var.get(),
             speaker_name=self.get_recording_speaker_var.get(),
         )
-
-    def _on_submit(self):
-        form_values = self.get_recording_metadata()
-        errors = self.validator.get_errors(form_values)
+        errors = self.validator.get_errors(recording_metadata)
         if len(errors) == 0:
+            self.data = recording_metadata
             self.root.destroy()
         else:
             self.validation_label.config(text="\n".join(errors))
-
-    def collect_recording_metadata(self) -> RecordingMetadata:
-        self.root.mainloop()
-        return self.get_recording_metadata()
