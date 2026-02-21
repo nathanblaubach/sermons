@@ -28,10 +28,10 @@ class RecordingMediaWriter:
 
         shutil.copy(
             executable_directory / "logo-youtube.jpg",
-            destination_directory / "logo-youtube.jpg"
+            destination_directory / "youtube-thumbnail.jpg"
         )
 
         shutil.copy(
             executable_directory / "logo-soundcloud.jpg",
-            destination_directory / "logo-soundcloud.jpg"
+            destination_directory / "soundcloud-artwork.jpg"
         )
