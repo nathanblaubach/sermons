@@ -113,15 +113,3 @@ class RecordingMetadataForm:
             self.root.destroy()
         else:
             self.validation_label.config(text="\n".join(errors))
-
-
-class FakeRecordingMetadataForm:
-    def get_metadata(self) -> RecordingMetadata | None:
-        return RecordingMetadata(
-            audio_file_path=Path(
-                "/home/nathanblaubach/Development/sermons/data/A - WARM - CHURCHFRONT PADS.mp3"
-            ),
-            title="Mark 8:16",
-            date="2026.02.21",
-            speaker_name="Aaron Morrow",
-        )
