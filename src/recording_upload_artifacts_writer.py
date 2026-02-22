@@ -16,19 +16,19 @@ class RecordingUploadArtifactsWriter:
                 "--accept-source-agreements",
             ], check=True)
 
-        logo_500x500_path=Path(__file__).parent / "logo-500x500.jpg"
-        logo_1920x1080_path=Path(__file__).parent / "logo-1920x1080.jpg"
+        soundcloud_artwork_path=Path(__file__).parent / "soundcloud-artwork.jpg"
+        youtube_thumbnail_path=Path(__file__).parent / "youtube-thumbnail.jpg"
 
         destination_directory = Path(str(metadata.audio_file_path).removesuffix('.mp3'))
         if not os.path.isdir(destination_directory):
             os.makedirs(destination_directory)
 
-        shutil.copy(logo_500x500_path, destination_directory / "soundcloud-artwork.jpg")
+        shutil.copy(soundcloud_artwork_path, destination_directory)
         shutil.copy(metadata.audio_file_path, destination_directory / "soundcloud-audio.mp3")
-        shutil.copy(logo_1920x1080_path, destination_directory / "youtube-thumbnail.jpg")
+        shutil.copy(youtube_thumbnail_path, destination_directory)
         subprocess.run([
             "ffmpeg",
-            "-i", logo_1920x1080_path,
+            "-i", youtube_thumbnail_path,
             "-i", metadata.audio_file_path,
             "-c:v", "libx264",
             "-tune", "stillimage",
