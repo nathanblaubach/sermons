@@ -7,7 +7,7 @@ from recording_metadata import RecordingMetadata
 class RecordingMetadataValidator:
     def get_errors(self, metadata: RecordingMetadata | None) -> list[str]:
         issues: list[str] = []
-        if metadata == None:
+        if metadata is None:
             return ["Please fill out the form"]
         if not metadata.audio_file_path.is_file():
             issues.append("Please provide a valid audio file path")

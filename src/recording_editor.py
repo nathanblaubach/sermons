@@ -11,6 +11,6 @@ class RecordingEditor:
 
     def prepare_for_upload(self):
         metadata = self.form.get_metadata()
-        if metadata != None:
+        if metadata is not None:
             upload_artifacts_directory = self.writer.write(metadata)
             print(f"Upload artifacts written to {upload_artifacts_directory}")
