@@ -6,17 +6,17 @@ import pytest
 from recording_metadata import RecordingMetadata
 from recording_editor import RecordingEditor
 
+
 class TestPrepareForUpload:
     @pytest.fixture(autouse=True)
     def setup(self):
         self.formMock = MagicMock()
         self.writerMock = MagicMock()
-        self.recordingEditor = RecordingEditor(
-            self.formMock,
-            self.writerMock
-        )
+        self.recordingEditor = RecordingEditor(self.formMock, self.writerMock)
 
-    def test_writes_artifacts_when_metadata_is_provided(self, capsys: pytest.CaptureFixture[str]):
+    def test_writes_artifacts_when_metadata_is_provided(
+        self, capsys: pytest.CaptureFixture[str]
+    ):
         metadata = RecordingMetadata(
             audio_file_path=Path("recording.mp3"),
             title="Mark 8:16",
@@ -25,7 +25,7 @@ class TestPrepareForUpload:
         )
         self.formMock.get_metadata.return_value = metadata
         self.writerMock.return_value = Path("recording")
-  
+
         self.recordingEditor.prepare_for_upload()
 
         self.writerMock.write.assert_called_once_with(metadata)

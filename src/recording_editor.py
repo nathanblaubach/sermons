@@ -1,8 +1,11 @@
 from recording_metadata_form import RecordingMetadataForm
 from recording_upload_artifacts_writer import RecordingUploadArtifactsWriter
 
+
 class RecordingEditor:
-    def __init__(self, form: RecordingMetadataForm, writer: RecordingUploadArtifactsWriter):
+    def __init__(
+        self, form: RecordingMetadataForm, writer: RecordingUploadArtifactsWriter
+    ):
         self.form = form
         self.writer = writer
 

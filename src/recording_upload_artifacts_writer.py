@@ -6,35 +6,51 @@ import sys
 
 from recording_metadata import RecordingMetadata
 
+
 class RecordingUploadArtifactsWriter:
     def write(self, metadata: RecordingMetadata):
         if shutil.which("ffmpeg") is None and sys.platform == "win32":
-            subprocess.run([
-                "winget", "install",
-                "-e", "--id", "Gyan.FFmpeg",
-                "--accept-package-agreements",
-                "--accept-source-agreements",
-            ], check=True)
+            subprocess.run(
+                [
+                    "winget",
+                    "install",
+                    "-e",
+                    "--id",
+                    "Gyan.FFmpeg",
+                    "--accept-package-agreements",
+                    "--accept-source-agreements",
+                ],
+                check=True,
+            )
 
-        soundcloud_artwork_path=Path(__file__).parent / "soundcloud-artwork.jpg"
-        youtube_thumbnail_path=Path(__file__).parent / "youtube-thumbnail.jpg"
+        soundcloud_artwork_path = Path(__file__).parent / "soundcloud-artwork.jpg"
+        youtube_thumbnail_path = Path(__file__).parent / "youtube-thumbnail.jpg"
 
-        destination_directory = Path(str(metadata.audio_file_path).removesuffix('.mp3'))
+        destination_directory = Path(str(metadata.audio_file_path).removesuffix(".mp3"))
         if not os.path.isdir(destination_directory):
             os.makedirs(destination_directory)
 
         shutil.copy(soundcloud_artwork_path, destination_directory)
-        shutil.copy(metadata.audio_file_path, destination_directory / "soundcloud-audio.mp3")
+        shutil.copy(
+            metadata.audio_file_path, destination_directory / "soundcloud-audio.mp3"
+        )
         shutil.copy(youtube_thumbnail_path, destination_directory)
-        subprocess.run([
-            "ffmpeg",
-            "-i", youtube_thumbnail_path,
-            "-i", metadata.audio_file_path,
-            "-c:v", "libx264",
-            "-tune", "stillimage",
-            "-c:a", "copy",
-            destination_directory / "youtube-video.mp4"
-        ])
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-i",
+                youtube_thumbnail_path,
+                "-i",
+                metadata.audio_file_path,
+                "-c:v",
+                "libx264",
+                "-tune",
+                "stillimage",
+                "-c:a",
+                "copy",
+                destination_directory / "youtube-video.mp4",
+            ]
+        )
 
         file_path = destination_directory / "upload-instructions.txt"
         file_contents = """Upload Instructions
@@ -73,7 +89,7 @@ Show more > Recording date and location > Recording date: {youtube_recording_dat
             soundcloud_release_date=metadata.date,
             youtube_title=metadata.title,
             youtube_description=f"{metadata.speaker_name} // {metadata.date}\nFind out more about River City Church at rivercitydbq.org",
-            youtube_recording_date=metadata.date
+            youtube_recording_date=metadata.date,
         )
         file_path.write_text(file_contents)
 
