@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog
 
@@ -10,7 +11,7 @@ class RecordingMetadataForm:
     def __init__(self):
         self.validator = RecordingMetadataValidator()
 
-    def get_recording_metadata(self) -> RecordingMetadata | None:
+    def get_metadata(self) -> RecordingMetadata | None:
         # Set up frame
         self.root = tk.Tk()
         self.root.title("Sermon Upload Assistant")
@@ -73,7 +74,7 @@ class RecordingMetadataForm:
 
     def __on_submit(self):
         recording_metadata = RecordingMetadata(
-            audio_file_path=self.get_recording_audio_file_path_var.get(),
+            audio_file_path=Path(self.get_recording_audio_file_path_var.get()),
             title=self.get_recording_title_var.get(),
             date=self.get_recording_date_var.get(),
             speaker_name=self.get_recording_speaker_var.get(),
@@ -84,3 +85,12 @@ class RecordingMetadataForm:
             self.root.destroy()
         else:
             self.validation_label.config(text="\n".join(errors))
+
+class FakeRecordingMetadataForm:
+    def get_metadata(self) -> RecordingMetadata | None:
+        return RecordingMetadata(
+            audio_file_path=Path('/home/nathanblaubach/Development/sermons/data/A - WARM - CHURCHFRONT PADS.mp3'),
+            title='Mark 8:16',
+            date='2026.02.21',
+            speaker_name='Aaron Morrow',
+        )

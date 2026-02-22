@@ -1,16 +1,11 @@
 from recording_metadata_form import RecordingMetadataForm
-from recording_media_writer import RecordingMediaWriter
-from recording_metadata_writer import RecordingMetadataWriter
+from recording_upload_artifacts_writer import RecordingUploadArtifactsWriter
 
 def main():
-    form = RecordingMetadataForm()
-    metadata_writer = RecordingMetadataWriter()
-    media_writer = RecordingMediaWriter()
-
-    metadata = form.get_recording_metadata()
+    metadata = RecordingMetadataForm().get_metadata()
     if metadata != None:
-        metadata_writer.write(metadata)
-        media_writer.write(metadata.audio_file_path)
+        upload_artifacts_directory = RecordingUploadArtifactsWriter().write(metadata)
+        print(f"Upload files written to {upload_artifacts_directory}")
 
 if __name__ == "__main__":
     main()
