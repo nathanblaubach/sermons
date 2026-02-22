@@ -22,7 +22,7 @@ jobs:
         run: pip install pyinstaller
 
       - name: Build executable
-        run: pyinstaller --onefile --windowed --add-data "src/*.jpg:." src/sermons.py
+        run: pyinstaller --onefile --windowed --name RecordingUploadHelper --add-data "src/*.jpg:." src/__main__.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
