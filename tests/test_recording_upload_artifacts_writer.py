@@ -22,7 +22,6 @@ class TestWrite:
         audio_file_path: Path = (
             Path(__file__).parent / "data" / "fake-test-recording.mp3"
         )
-        audio_file_path.touch()
         title = "Sunday Sermon"
         date = "2026.02.16"
         speaker_name = "John Smith"
