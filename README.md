@@ -17,7 +17,7 @@ This allows the upload process to happen without the need for manually
 
 ## Setup
 
-You will need to have [Python](https://www.python.org/downloads/) installed.
+You will need to have [Python](https://www.python.org/downloads/) and [FFmpeg](https://ffmpeg.org/download.html) installed.
 
 Clone the repository
 
@@ -53,14 +53,16 @@ python src/__main__.py
 
 Run quality checks
 
+Builds will fail if any formatting, linting or test issues arise. Coverage must stay at 100% for unit testable code.
+
 ```shell
 pre-commit run --all-files # Formatting / Linting
-pytest # Unit tests
+pytest # Unit tests and coverage
 ```
 
 ## Contributors
 
-- [Nathan Blaubach](https://github.com/nathanblaubach) - Source Code
+- [Nathan Blaubach](https://github.com/nathanblaubach)
 
 ## Licenses
 
