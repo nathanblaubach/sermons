@@ -21,8 +21,7 @@ class RecordingUploadArtifactsWriter:
         youtube_thumbnail_path = Path(__file__).parent / "youtube-thumbnail.jpg"
 
         destination_directory = Path(str(metadata.audio_file_path).removesuffix(".mp3"))
-        if not os.path.isdir(destination_directory):
-            os.makedirs(destination_directory)
+        os.makedirs(destination_directory, exist_ok=True)
 
         shutil.copy(
             soundcloud_artwork_path, destination_directory / "soundcloud-artwork.jpg"

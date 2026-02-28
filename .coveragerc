@@ -1,0 +1,10 @@
+[report]
+omit =
+    # Entry point, not unit testable
+    src/__main__.py
+    # GUI form, not unit testable
+    src/recording_metadata_form.py
+    # Manual test script
+    src/test.py
+    # Wraps ffmpeg CLI, not unit testable
+    src/video_generator.py
