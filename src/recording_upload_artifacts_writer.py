@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 from instructions_generator import InstructionsGenerator
 from recording_metadata import RecordingMetadata
