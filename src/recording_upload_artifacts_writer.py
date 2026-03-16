@@ -34,7 +34,7 @@ class RecordingUploadArtifactsWriter:
         )
 
         self.video_generator.generate(
-            destination_directory, soundcloud_artwork_path, metadata.audio_file_path
+            destination_directory, youtube_thumbnail_path, metadata.audio_file_path
         )
 
         self.instructions_generator.generate(destination_directory, metadata)
