@@ -1,6 +1,4 @@
-from pathlib import Path
-
-from recording_metadata import RecordingMetadata
+from recording_upload_bundle import RecordingUploadBundle
 
 FILE_TEMPLATE = """Upload Instructions
 
@@ -9,8 +7,8 @@ Soundcloud: https://soundcloud.com/upload
 Upload the recording
 
 Select "Upload" > "Choose File"
-Choose files: soundcloud-audio.mp3
-Add new artwork: soundcloud-artwork.jpg
+Choose files: file://{soundcloud_audio}
+Add new artwork: file://{soundcloud_artwork}
 Track title: {soundcloud_track_title}
 Genre: Religion & Spirituality
 Description:
@@ -44,11 +42,11 @@ Go back to the "Add to Playlist" and continue above
 YouTube: https://studio.youtube.com/channel/UCKmv_adKiFPQCbwQW2qaONw
 
 Select "Create" > "Upload Videos"
-Select files: youtube-video.mp4
+Select files: file://{youtube_video}
 Title: {youtube_title}
 Description:
 {youtube_description}
-Thumbnail: youtube-thumbnail.jpg
+Thumbnail: file://{youtube_thumbnail}
 Playlists:
 - Sermons
 - Current Sermon Series (If Applicable)
@@ -68,14 +66,18 @@ Select "Create"
 
 
 class InstructionsGenerator:
-    def generate(self, destination_directory: Path, metadata: RecordingMetadata):
-        file_path = destination_directory / "upload-instructions.txt"
-        file_contents = FILE_TEMPLATE.format(
-            soundcloud_track_title=f"{metadata.title} // {metadata.date}",
-            soundcloud_description=f"{metadata.title} // {metadata.speaker_name}\nFind out more about River City Church at rivercitydbq.org",
-            soundcloud_release_date=metadata.date,
-            youtube_title=metadata.title,
-            youtube_description=f"{metadata.speaker_name} // {metadata.date}\nFind out more about River City Church at rivercitydbq.org",
-            youtube_recording_date=metadata.date,
+    def generate(self, upload_bundle: RecordingUploadBundle):
+        upload_bundle.instructions.write_text(
+            FILE_TEMPLATE.format(
+                soundcloud_audio=upload_bundle.soundcloud_audio,
+                soundcloud_artwork=upload_bundle.soundcloud_artwork,
+                soundcloud_track_title=upload_bundle.soundcloud_track_title,
+                soundcloud_description=upload_bundle.soundcloud_description,
+                soundcloud_release_date=upload_bundle.soundcloud_release_date,
+                youtube_video=upload_bundle.youtube_video,
+                youtube_thumbnail=upload_bundle.youtube_thumbnail,
+                youtube_title=upload_bundle.youtube_title,
+                youtube_description=upload_bundle.youtube_description,
+                youtube_recording_date=upload_bundle.youtube_recording_date,
+            )
         )
-        file_path.write_text(file_contents)

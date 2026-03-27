@@ -1,7 +1,8 @@
 import shutil
 import subprocess
 import sys
-from pathlib import Path
+
+from recording_upload_bundle import RecordingUploadBundle
 
 
 class VideoGenerator:
@@ -20,20 +21,20 @@ class VideoGenerator:
                 check=True,
             )
 
-    def generate(self, destination_directory: Path, image_path: Path, audio_path: Path):
+    def generate(self, upload_bundle: RecordingUploadBundle):
         subprocess.run(
             [
                 "ffmpeg",
                 "-i",
-                image_path,
+                upload_bundle.youtube_thumbnail,
                 "-i",
-                audio_path,
+                upload_bundle.soundcloud_audio,
                 "-c:v",
                 "libx264",
                 "-tune",
                 "stillimage",
                 "-c:a",
                 "copy",
-                destination_directory / "youtube-video.mp4",
+                upload_bundle.youtube_video,
             ]
         )
